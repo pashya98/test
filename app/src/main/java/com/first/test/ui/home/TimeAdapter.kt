@@ -9,12 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.first.test.R
+import com.first.test.data.local.db.entity.TImeInfoEntity
 import com.first.test.model.TimeDetails
 
 
-class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeDetails>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TImeInfoEntity>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    fun updateTime(timeDetailsList:List<TimeDetails>){
+    fun updateTime(timeDetailsList:List<TImeInfoEntity>){
         mTimeDetailsList=timeDetailsList;
         notifyDataSetChanged()
     }
@@ -36,7 +37,8 @@ class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeDetails>)
         timeViewHolder.mPublishDate.text=mTimeDetailsList[position].published_date
         Glide
             .with(mContext)
-            .load(mTimeDetailsList[position].media.get(0).mediametadata.get(0).url)
+            .load(mTimeDetailsList[position].url)
+            //.load(mTimeDetailsList[position].media.get(0).mediametadata.get(0).url)
             .into(timeViewHolder.mProfile)
     }
 
