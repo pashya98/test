@@ -53,9 +53,6 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:1.1.1'
     implementation "android.arch.persistence.room:rxjava2:1.1.1"
 
-    // Room
-//    implementation "androidx.room:room-runtime:$room_version"
-//    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

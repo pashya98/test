@@ -35,7 +35,7 @@ class TimeDetailsViewModel: ViewModel() {
 
     fun getDBTimeDetails(id:Long) {
         mCompositeDisposable.add(
-            mAppDatabase!!.timeDao().getTimeDetails(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            mAppDatabase.timeDao().getTimeDetails(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ users ->
                     mTimeDetails.setValue(users)
                 })

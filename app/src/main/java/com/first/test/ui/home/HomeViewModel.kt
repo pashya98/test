@@ -47,18 +47,20 @@ class HomeViewModel: ViewModel() {
     fun getTimeList(callBack:HomeNavigator): LiveData<List<TimeInfo>> {
         mTimeDetailsList = MutableLiveData()
         mCallBack=callBack
-        //mTimeDetailsList.setValue(mAppDatabase!!.timeDao().getTimeList())
-        getUsers()
+        mCallBack.showLoading()
+        getLocalDBTimeList()
         getTimeDetails()
         return mTimeDetailsList
     }
 
-    fun getUsers() {
+    fun getLocalDBTimeList() {
         mCompositeDisposable.add(
-        mAppDatabase!!.timeDao().getTimeList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ users ->
-               // databaseCallback.onUsersLoaded(users)
-                mTimeDetailsList.setValue(users)
+        mAppDatabase.timeDao().getTimeList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ timelist ->
+                mTimeDetailsList.setValue(timelist)
+                if (timelist.isNotEmpty()){
+                    mCallBack.hideLoading()
+                }
             })
         )
     }
@@ -66,7 +68,6 @@ class HomeViewModel: ViewModel() {
 
     @SuppressLint("CheckResult")
     fun getTimeDetails() {
-        mCallBack.showLoading()
         mCompositeDisposable.add(mApiService.getTimeDetails(mApiKey)
             .subscribeOn(Schedulers.io())
             .observeOn( AndroidSchedulers.mainThread())
@@ -140,7 +141,7 @@ class HomeViewModel: ViewModel() {
 
                 override fun onComplete() {
                     println("Completed")
-                    getUsers()
+                    getLocalDBTimeList()
                    // databaseCallback.onUserAdded()
                 }
 

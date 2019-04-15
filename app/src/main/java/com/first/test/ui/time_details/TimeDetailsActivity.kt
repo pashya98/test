@@ -5,11 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.first.test.R
 import com.first.test.data.localdb.entity.TimeInfo
-import com.first.test.ui.home.HomeViewModel
-import com.first.test.ui.home.TimeAdapter
 import android.arch.lifecycle.Observer
-import android.support.annotation.Nullable
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_time_details.*
 
@@ -17,11 +13,11 @@ import kotlinx.android.synthetic.main.activity_time_details.*
 class TimeDetailsActivity : AppCompatActivity() {
 
     private lateinit var mTimeDetailsViewModel: TimeDetailsViewModel
-    private lateinit var mTimeDetails:TimeInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_details)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
         title="Time Details"
         mTimeDetailsViewModel = ViewModelProviders.of(this).get(TimeDetailsViewModel::class.java)
         mTimeDetailsViewModel.getDBInstanse(this)
@@ -31,6 +27,12 @@ class TimeDetailsActivity : AppCompatActivity() {
                getTime(id)
            }
        }
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     fun getTime(id:Long){
