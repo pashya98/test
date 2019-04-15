@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Test</string>
     <string name="no_internet_connection">Internet connection is not available</string>
+    <string name="type">Type : </string>
 </resources>

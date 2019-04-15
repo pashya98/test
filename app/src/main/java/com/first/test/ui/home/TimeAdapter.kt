@@ -9,12 +9,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.first.test.R
+import com.first.test.data.localdb.entity.TimeInfo
 import com.first.test.model.TimeDetails
 
 
-class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeDetails>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeInfo>,callback:OnClickListener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+   var mCallback:OnClickListener
 
-    fun updateTime(timeDetailsList:List<TimeDetails>){
+    init {
+      mCallback=callback
+    }
+
+    fun updateTime(timeDetailsList:List<TimeInfo>){
         mTimeDetailsList=timeDetailsList;
         notifyDataSetChanged()
     }
@@ -32,12 +38,18 @@ class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeDetails>)
         val timeViewHolder = viewHolder as TimeViewHolder
 
         timeViewHolder.mTitle.text=mTimeDetailsList[position].title
-        timeViewHolder.mSubTitle.text=mTimeDetailsList[position].abstract
+        timeViewHolder.mSubTitle.text=mTimeDetailsList[position].sub_title
         timeViewHolder.mPublishDate.text=mTimeDetailsList[position].published_date
         Glide
             .with(mContext)
-            .load(mTimeDetailsList[position].media.get(0).mediametadata.get(0).url)
+            .load(mTimeDetailsList[position].url)
+            //.load(mTimeDetailsList[position].media.get(0).mediametadata.get(0).url)
             .into(timeViewHolder.mProfile)
+
+
+        timeViewHolder.itemView.setOnClickListener({
+            mCallback.onClick(mTimeDetailsList[position].id)
+        })
     }
 
 
@@ -56,4 +68,7 @@ class TimeAdapter(var mContext: Context, var mTimeDetailsList:List<TimeDetails>)
         }
     }
 
+    interface OnClickListener{
+        fun onClick(id:Long)
+    }
 }
